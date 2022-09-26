@@ -11,6 +11,7 @@ group("root") {
   deps = [
     "//src:hafnium(:aem_v8a_fvp_clang)",
     "//src:hafnium(:aem_v8a_gicv2_fvp_clang)",
+    "//src:hafnium(:jetson_tx2_clang)",
     "//src:hafnium(:aem_v8a_fvp_vhe_clang)",
     "//src:hafnium(:qemu_aarch64_clang)",
     "//src:hafnium(:qemu_aarch64_gicv2_clang)",
@@ -161,6 +162,27 @@ aarch64_toolchains("aem_v8a_fvp") {
     smmu_base_address = "0x2b400000"
     smmu_memory_size = "0x100000"
     plat_log_level = "LOG_LEVEL_INFO"
+  }
+}
+
+
+aarch64_toolchains("jetson_tx2") {
+  cpu = "cortex-a57"
+  origin_address = "0x80000000"
+  boot_flow = "//src/boot_flow:linux"
+  console = "//src/arch/aarch64/ns16550"
+  iommu = "//src/arch/aarch64/arm_smmuv3"
+  gic_version = 3
+  gicd_base_address = "0x2a41000"
+  gicr_base_address = "0x2a42000"
+  gicr_frames = 8
+  heap_pages = 60
+  max_cpus = 8
+  max_vms = 16
+  toolchain_args = {
+    plat_ffa = "//src/arch/aarch64/plat/ffa:hypervisor"
+    smmu_base_address = "0x12000000"
+    smmu_memory_size = "0x1000000"
   }
 }
 
